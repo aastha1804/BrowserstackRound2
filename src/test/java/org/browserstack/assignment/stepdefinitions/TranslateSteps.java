@@ -19,8 +19,8 @@ public class TranslateSteps extends BaseStep {
 
     private HomePage homePage;
     private OpinionPage opinionPage;
-    private List<String> spanishTitles;
-    private List<String> translatedTitles;
+    protected List<String> spanishTitles;
+    protected List<String> translatedTitles;
 
     @Given("original article titles are collected in Spanish")
     public void originalArticleTitlesAreCollectedInSpanish() {
@@ -30,15 +30,22 @@ public class TranslateSteps extends BaseStep {
         opinionPage = homePage.clickOpinionSection();
 
         spanishTitles = new ArrayList<>();
-        List<String> articleLinks = opinionPage.getFirstFiveArticleLinks();
+        List<String> articleLinks = opinionPage.getAllOpinionArticleLinks();
 
-        for (int i = 0; i < Math.min(5, articleLinks.size()); i++) {
-            driver.get(articleLinks.get(i));
-            ArticlePage articlePage = new ArticlePage(driver);
-            spanishTitles.add(articlePage.getArticleTitle());
+        for (String link : articleLinks) {
+            try {
+                driver.get(link);
+                ArticlePage articlePage = new ArticlePage(driver);
+                String title = articlePage.getArticleTitle();
+                if (title != null && !title.isBlank()) {
+                    spanishTitles.add(title);
+                }
+            } catch (Exception e) {
+                log.warn("Skipping article due to error: " + e.getMessage());
+            }
         }
 
-        log.info("Collected Spanish titles: " + spanishTitles);
+        log.info("Collected " + spanishTitles.size() + " Spanish titles");
     }
 
     @When("the titles are translated using a translation API")
