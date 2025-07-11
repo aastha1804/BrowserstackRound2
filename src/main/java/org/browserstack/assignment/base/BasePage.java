@@ -77,4 +77,10 @@ public class BasePage {
         wait.until(ExpectedConditions.alertIsPresent());
         driver.switchTo().alert().dismiss();
     }
+
+    public String getAttribute(WebElement element, String attribute) {
+        wait.until(ExpectedConditions.visibilityOf(element));
+        String attr = element.getAttribute(attribute);
+        return attr;
+    }
 }

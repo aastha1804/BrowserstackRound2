@@ -14,8 +14,9 @@ public class HomePage extends BasePage {
         super(driver);
     }
 
-    public void clickOpinionSection() {
+    public OpinionPage clickOpinionSection() {
         acceptCookieConsent();
         clickButton(opinionLink);
+        return new OpinionPage(driver);
     }
 }

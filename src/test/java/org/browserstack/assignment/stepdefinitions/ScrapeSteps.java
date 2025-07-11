@@ -2,16 +2,25 @@ package org.browserstack.assignment.stepdefinitions;
 
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
+import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import lombok.extern.log4j.Log4j2;
 import org.browserstack.assignment.base.BaseStep;
+import org.browserstack.assignment.pages.ArticlePage;
 import org.browserstack.assignment.pages.HomePage;
+import org.browserstack.assignment.pages.OpinionPage;
 import org.browserstack.assignment.utils.ConfigReader;
+import org.browserstack.assignment.utils.ImageDownloader;
+import org.browserstack.assignment.utils.TranslatorUtil;
+
+import java.util.List;
 
 @Log4j2
 public class ScrapeSteps extends BaseStep {
 
     private HomePage homePage;
+    private OpinionPage opinionPage;
+    private List<String> articleLinks;
 
     @Given("the El País homepage is opened")
     public void theElPaísHomepageIsOpened() {
@@ -30,7 +39,7 @@ public class ScrapeSteps extends BaseStep {
     public void theUserNavigatesToTheOpinionSection() {
         try {
             log.info("Navigating to the Opinion section");
-            homePage.clickOpinionSection();
+            opinionPage = homePage.clickOpinionSection();
         } catch (Exception e) {
             log.error("Failed to navigate to Opinion section: {}", e.getMessage());
             throw new RuntimeException("Failed to navigate to Opinion section", e);
@@ -39,7 +48,7 @@ public class ScrapeSteps extends BaseStep {
 
     @And("the top {int} articles are extracted with titles and content")
     public void theTopArticlesAreExtractedWithTitlesAndContent(int count) {
-        /*log.info("Extracting top " + count + " articles");
+        log.info("Extracting top " + count + " articles");
 
         articleLinks = opinionPage.getFirstFiveArticleLinks();
         log.debug("Found " + articleLinks.size() + " article links");
@@ -60,12 +69,12 @@ public class ScrapeSteps extends BaseStep {
             System.out.println("Title: " + title);
             System.out.println("Content: " + content);
             System.out.println("--------------------------------------------------");
-        }*/
+        }
     }
 
     @And("cover images are downloaded if available")
     public void coverImagesAreDownloadedIfAvailable() {
-        /*log.info("Downloading cover images if available");
+        log.info("Downloading cover images if available");
 
         if (articleLinks == null || articleLinks.isEmpty()) {
             articleLinks = opinionPage.getFirstFiveArticleLinks();
@@ -86,6 +95,30 @@ public class ScrapeSteps extends BaseStep {
             } else {
                 log.warn("No image found for article " + (i + 1));
             }
-        }*/
+        }
     }
+
+    @Then("the translated titles should be printed in the console")
+    public void theTranslatedTitlesShouldBePrintedInTheConsole() {
+        log.info("Translating titles to English");
+
+        if (articleLinks == null || articleLinks.isEmpty()) {
+            articleLinks = opinionPage.getFirstFiveArticleLinks();
+        }
+
+        for (int i = 0; i < articleLinks.size(); i++) {
+            String url = articleLinks.get(i);
+            driver.get(url);
+
+            ArticlePage articlePage = new ArticlePage(driver);
+            String originalTitle = articlePage.getArticleTitle();
+            String translatedTitle = TranslatorUtil.translateToEnglish(originalTitle);
+
+            System.out.println("Article " + (i + 1) + ":");
+            System.out.println("Original Title: " + originalTitle);
+            System.out.println("Translated Title: " + translatedTitle);
+            System.out.println("--------------------------------------------------");
+        }
+    }
+
 }
