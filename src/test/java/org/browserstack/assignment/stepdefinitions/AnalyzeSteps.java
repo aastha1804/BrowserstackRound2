@@ -14,13 +14,28 @@ public class AnalyzeSteps extends BaseStep {
 
     @Given("translated titles are available")
     public void translatedTitlesAreAvailable() {
-        // Replace this list with actual titles shared across steps if needed
         translatedTitles = Arrays.asList(
                 "Stop Putin and rebuild Ukraine",
                 "The rights of the mind",
                 "Rules for journalists to disturb",
                 "Srebrenica we were there and it did not help",
-                "Dead times"
+                "Dead times",
+                "Unemployed youth and democracy",
+                "War or catastrophe",
+                "We must rethink mental health",
+                "The democracy of the credulous",
+                "The world is burning and we look the other way",
+                "Elections in a country that no longer exists",
+                "Against the tiredness of politics",
+                "Politics to the limit",
+                "Ethics of responsibility",
+                "There is no planet B",
+                "Bridges or walls",
+                "Citizenship and rights",
+                "Fear is a bad adviser",
+                "We have to talk about Europe",
+                "Voices from the South",
+                "The strength of the fragile"
         );
 
         System.out.println("Translated Titles:");

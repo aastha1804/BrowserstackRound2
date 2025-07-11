@@ -7,12 +7,12 @@ Feature: Automate El País Opinion Articles Workflow
     And the top 5 articles are extracted with titles and content
     And cover images are downloaded if available
 
-  @run_this
   Scenario: Translate article titles to English
     Given original article titles are collected in Spanish
     When the titles are translated using a translation API
     Then the translated titles should be printed in the console
 
+  @run_this
   Scenario: Analyze repeated words in translated titles
     Given translated titles are available
     When words are extracted and counted
