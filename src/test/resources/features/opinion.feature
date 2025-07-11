@@ -2,12 +2,12 @@ Feature: Automate El País Opinion Articles Workflow
   Background:
     Given the El País homepage is opened
 
-  @run_this
   Scenario: Scrape top 5 opinion articles
     When the user navigates to the Opinion section
     And the top 5 articles are extracted with titles and content
     And cover images are downloaded if available
 
+  @run_this
   Scenario: Translate article titles to English
     Given original article titles are collected in Spanish
     When the titles are translated using a translation API

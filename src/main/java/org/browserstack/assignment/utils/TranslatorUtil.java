@@ -1,44 +1,31 @@
 package org.browserstack.assignment.utils;
 
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
-
-import java.io.OutputStream;
+import java.io.*;
 import java.net.HttpURLConnection;
+import java.net.URLEncoder;
 import java.net.URL;
-import java.util.Scanner;
 
 public class TranslatorUtil {
 
-    private static final String API_KEY = "YOUR_API_KEY_HERE";
-
     public static String translateToEnglish(String text) {
         try {
-            URL url = new URL("https://translation.googleapis.com/language/translate/v2?key=" + API_KEY);
-            String body = "{\"q\": \"" + text + "\", \"target\": \"en\"}";
-
+            String urlStr = "https://translate.googleapis.com/translate_a/single?client=gtx&sl=es&tl=en&dt=t&q=" +
+                    URLEncoder.encode(text, "UTF-8");
+            URL url = new URL(urlStr);
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-            conn.setRequestMethod("POST");
-            conn.setRequestProperty("Content-Type", "application/json; utf-8");
-            conn.setDoOutput(true);
+            conn.setRequestProperty("User-Agent", "Mozilla/5.0");
 
-            try (OutputStream os = conn.getOutputStream()) {
-                os.write(body.getBytes());
+            BufferedReader in = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+            String inputLine = in.readLine(); // Gets the translated text
+            in.close();
+
+            if (inputLine != null && inputLine.startsWith("[[[")) {
+                return inputLine.split("\"")[1];
             }
 
-            Scanner sc = new Scanner(conn.getInputStream());
-            String response = sc.useDelimiter("\\A").next();
-
-            JsonObject jsonResponse = JsonParser.parseString(response).getAsJsonObject();
-            return jsonResponse
-                    .getAsJsonObject("data")
-                    .getAsJsonArray("translations")
-                    .get(0).getAsJsonObject()
-                    .get("translatedText").getAsString();
-
         } catch (Exception e) {
-            e.printStackTrace();
-            return "[Translation Failed]";
+            System.err.println("Translation failed: " + e.getMessage());
         }
+        return "[Translation failed]";
     }
 }

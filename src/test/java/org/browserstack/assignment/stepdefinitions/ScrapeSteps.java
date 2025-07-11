@@ -97,28 +97,4 @@ public class ScrapeSteps extends BaseStep {
             }
         }
     }
-
-    @Then("the translated titles should be printed in the console")
-    public void theTranslatedTitlesShouldBePrintedInTheConsole() {
-        log.info("Translating titles to English");
-
-        if (articleLinks == null || articleLinks.isEmpty()) {
-            articleLinks = opinionPage.getFirstFiveArticleLinks();
-        }
-
-        for (int i = 0; i < articleLinks.size(); i++) {
-            String url = articleLinks.get(i);
-            driver.get(url);
-
-            ArticlePage articlePage = new ArticlePage(driver);
-            String originalTitle = articlePage.getArticleTitle();
-            String translatedTitle = TranslatorUtil.translateToEnglish(originalTitle);
-
-            System.out.println("Article " + (i + 1) + ":");
-            System.out.println("Original Title: " + originalTitle);
-            System.out.println("Translated Title: " + translatedTitle);
-            System.out.println("--------------------------------------------------");
-        }
-    }
-
 }
