@@ -10,7 +10,7 @@ import org.testng.annotations.DataProvider;
         glue = {"org.browserstack.assignment.stepdefinitions", "org.browserstack.assignment.hooks"},
         monochrome = true,// Enable readable console output
 //        dryRun = true,
-        tags = "@run_this",
+//        tags = "@run_this",
         plugin = {
                 "pretty",                              // Pretty console output
                 "io.qameta.allure.cucumber7jvm.AllureCucumber7Jvm" // Allure plugin

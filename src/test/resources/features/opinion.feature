@@ -12,7 +12,6 @@ Feature: Automate El País Opinion Articles Workflow
     When the titles are translated using a translation API
     Then the translated titles should be printed in the console
 
-  @run_this
   Scenario: Analyze repeated words in translated titles
     Given original article titles are collected in Spanish
     When the titles are translated using a translation API
@@ -20,9 +19,3 @@ Feature: Automate El País Opinion Articles Workflow
     Given translated titles are available
     When words are extracted and counted
     Then words appearing more than twice should be printed with their frequencies
-
-  @crossbrowser
-  Scenario: Execute the solution in parallel on BrowserStack
-    Given the scraping solution is validated locally
-    When tests are executed in parallel on 5 BrowserStack environments
-    Then the solution should complete successfully across all environments

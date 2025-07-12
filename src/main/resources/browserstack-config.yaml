@@ -1,0 +1,28 @@
+userName: aasthasinha_9TAE7P
+accessKey: 4YmtFCzpx3szz8H3zcNs
+
+projectName: ElPais Scraper
+buildName: ElPais Cross-Browser Test
+buildIdentifier: '#${BUILD_NUMBER}'
+framework: testng
+
+platforms:
+  - os: Windows
+    osVersion: 10
+    browserName: Chrome
+    browserVersion: 120.0
+  - os: OS X
+    osVersion: Monterey
+    browserName: Safari
+    browserVersion: 15.6
+  - deviceName: iPhone 13
+    osVersion: 15
+    browserName: Chromium
+    deviceOrientation: portrait
+
+parallelsPerPlatform: 1
+browserstackLocal: false
+debug: false
+networkLogs: false
+consoleLogs: errors
+testObservability: true

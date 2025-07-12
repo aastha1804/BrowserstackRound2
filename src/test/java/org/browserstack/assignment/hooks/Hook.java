@@ -8,6 +8,8 @@ import lombok.Getter;
 import lombok.SneakyThrows;
 import lombok.extern.log4j.Log4j2;
 import org.browserstack.assignment.utils.ConfigReader;
+import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.WebDriver;
 
 import static org.browserstack.assignment.utils.SingletonWebDriverFactoryUtils.*;
 
@@ -36,6 +38,16 @@ public class Hook {
     public void tearDown(Scenario scenario) {
         try{
             log.info("TearDown invoked...");
+
+            // Notify BrowserStack of pass/fail status
+            WebDriver driver = getThreadLocalDriver();
+            if (driver instanceof JavascriptExecutor js) {
+                String status = scenario.isFailed() ? "failed" : "passed";
+                String reason = scenario.getName();
+                js.executeScript("browserstack_executor: {\"action\": \"setSessionStatus\", \"arguments\": {\"status\":\""
+                        + status + "\", \"reason\": \"" + reason + "\"}}");
+            }
+
             if(scenario.isFailed()){
                 log.error("Scenario Failed {}", scenario.getName());
                 ScreenShotUtils.getScreenShot(getThreadLocalDriver(), scenario.getName()+this.getClass().getName());
