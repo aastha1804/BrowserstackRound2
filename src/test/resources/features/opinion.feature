@@ -14,6 +14,9 @@ Feature: Automate El País Opinion Articles Workflow
 
   @run_this
   Scenario: Analyze repeated words in translated titles
+    Given original article titles are collected in Spanish
+    When the titles are translated using a translation API
+    Then the translated titles should be printed in the console
     Given translated titles are available
     When words are extracted and counted
     Then words appearing more than twice should be printed with their frequencies

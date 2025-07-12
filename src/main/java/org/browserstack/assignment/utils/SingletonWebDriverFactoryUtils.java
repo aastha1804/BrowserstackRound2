@@ -1,4 +1,4 @@
-package org.browserstack.assignment.base.utils;
+package org.browserstack.assignment.utils;
 
 import org.browserstack.assignment.exception.InvalidWebDriverException;
 import org.openqa.selenium.WebDriver;
