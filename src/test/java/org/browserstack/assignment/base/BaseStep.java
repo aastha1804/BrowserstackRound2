@@ -6,7 +6,7 @@ import org.openqa.selenium.WebDriver;
 
 import java.util.Properties;
 
-import static org.browserstack.assignment.base.utils.SingletonWebDriverFactoryUtils.getThreadLocalDriver;
+import static org.browserstack.assignment.utils.SingletonWebDriverFactoryUtils.getThreadLocalDriver;
 
 
 @Data

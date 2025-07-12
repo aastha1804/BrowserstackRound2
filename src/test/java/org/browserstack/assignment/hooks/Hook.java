@@ -7,8 +7,10 @@ import io.cucumber.java.Scenario;
 import lombok.Getter;
 import lombok.SneakyThrows;
 import lombok.extern.log4j.Log4j2;
+import org.browserstack.assignment.utils.ConfigReader;
 
-import static org.browserstack.assignment.base.utils.SingletonWebDriverFactoryUtils.*;
+import static org.browserstack.assignment.utils.SingletonWebDriverFactoryUtils.*;
+
 
 @Log4j2
 public class Hook {
@@ -18,7 +20,7 @@ public class Hook {
     @Before
     public void setUp() {
         try{
-            browserName=System.getProperty("browser", "chrome");
+            browserName= ConfigReader.get("environment","chrome");
             setThreadLocalDriver(browserName);
             getThreadLocalDriver().manage().window().maximize();
             log.info("Setup Completed for : {}", getThreadLocalDriver().getClass().getSimpleName());
